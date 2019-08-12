@@ -1,5 +1,5 @@
-# rbytepair
-A Rust assisted byte pair encoding library for Python
+# rnucpair
+A Rust assisted nucleotide byte pair encoding library for Python
 
 ## Installation
 
