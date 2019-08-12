@@ -12,7 +12,8 @@ fn calculate_pair_statistics(vocab: Vec<String>) ->  PyResult<HashMap<String, i3
    
     let mut map = HashMap::new();
     
-    let _test = vocab.iter().map(|sequence| {
+    for sequence in vocab.iter() {
+
         let inter = sequence.chars().collect::<Vec<char>>();
 
         for slice in inter.iter().collect::<Vec<_>>().windows(2) {
@@ -28,8 +29,7 @@ fn calculate_pair_statistics(vocab: Vec<String>) ->  PyResult<HashMap<String, i3
                 map.insert(s, 1);
             }
         }
-    }).collect::<Vec<_>>();
-    
+    } 
 
     Ok(map)
 }
