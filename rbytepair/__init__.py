@@ -1,3 +1,4 @@
 from .rbytepair import func_try
 
-__all__ = ["func_try"]
+def get_func() -> bool:
+    return func_try
