@@ -13,12 +13,15 @@ class TestRNucPair(unittest.TestCase):
             "CGCCCGAGC",
             "ACTGGGGCCAA"
         ]
+        
         npe = NucPairEncoder(corpus)
-
-        print(npe.global_vocab())
-
-
-
+        
+        # Hand crafted expected results
+        
+        exp = {'C': 11, 'A': 6, 'G': 10, 'T': 4}
+        
+        for k, v in npe.global_vocab().items():
+            self.assertEqual(v, exp[k])
 
 
     def test_pair_stats(self):
@@ -30,7 +33,7 @@ class TestRNucPair(unittest.TestCase):
 
         # Hand crafted expected results
 
-        expected = {
+        exp = {
             "CC": 4, "TT": 1, "GC": 3, "CG": 3,
             "GT": 1, "AA": 1, "GA": 2, "TG": 2,
             "GG": 4, "AT": 1, "CA": 1, "TC": 1,
@@ -40,7 +43,7 @@ class TestRNucPair(unittest.TestCase):
         npe = NucPairEncoder(corpus)
 
         for k, v in npe.pair_statistics().items():
-            self.assertEqual(v, expected[k])
+            self.assertEqual(v, exp[k])
 
 if __name__ == '__main__':
     unittest.main()
