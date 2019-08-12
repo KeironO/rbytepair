@@ -17,7 +17,7 @@ except ImportError:
     else:
         from setuptools_rust import RustExtension
 
-class CargoModifiedSdist(SdistCommand):
+class CargoModifiedSdist(sdist):
     """Modifies Cargo.toml to use an absolute rather than a relative path
     The current implementation of PEP 517 in pip always does builds in an
     isolated temporary directory. This causes problems with the build, because
@@ -50,6 +50,18 @@ class CargoModifiedSdist(SdistCommand):
             toml.dump(cargo_toml, f)
 
 
+class PyTest(test):
+    user_options = []
+
+    def run(self):
+        self.run_command("test_rust")
+
+        import subprocess
+
+        subprocess.check_call(["pytest", "tests"])
+
+
+
 setup_requires = ["setuptools-rust>=0.10.1", "wheel"]
 install_requires = []
 tests_require = install_requires + ["pytest"]
@@ -58,7 +70,7 @@ setup (
     name="rbytepair",
     version="0.0.1",
     packages=["rbytepair"],
-    rust_extensions=[RustExtension("rbytepair.rbytepair", "Cargo.toml")]
+    rust_extensions=[RustExtension("rbytepair.rbytepair", "Cargo.toml")],
     install_requires=install_requires,
     tests_require=tests_require,
     setup_requires=setup_requires,
