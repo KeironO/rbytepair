@@ -69,8 +69,8 @@ tests_require = install_requires + ["pytest"]
 setup (
     name="rbytepair",
     version="0.0.1",
-    packages=["rbyte_pair"],
-    rust_extensions=[RustExtension("rbyte_pair.rbyte_pair", "Cargo.toml")],
+    packages=["rbytepair"],
+    rust_extensions=[RustExtension("rbytepair.rbytepair", "Cargo.toml")],
     install_requires=install_requires,
     tests_require=tests_require,
     setup_requires=setup_requires,

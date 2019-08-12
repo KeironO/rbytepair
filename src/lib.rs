@@ -7,7 +7,7 @@ fn func_try() -> bool {
 }
 
 #[pymodule]
-fn rbyte_pair(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
+fn rbytepair(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_pyfunction!(func_try))?;
     Ok(())
 }
