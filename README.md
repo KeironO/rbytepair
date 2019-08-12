@@ -21,3 +21,7 @@ rustup default nightly
 ```
 python ./setup.py develop
 ```
+
+```
+python -m unittest tests/rnucpair_test.py
+```
