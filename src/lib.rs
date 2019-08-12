@@ -8,7 +8,12 @@ fn func_try() -> bool {
 }
 
 #[pyfunction]
-fn calculate_pair_statistics(vocab: Vec<String>) ->  PyResult<HashMap<String, i32>> {
+fn get_global_vocab(vocab: Vec<String>) -> PyResult<HashMap<String, i32>> {
+
+}
+
+#[pyfunction]
+fn calculate_pair_stats(vocab: Vec<String>) ->  PyResult<HashMap<String, i32>> {
    
     let mut map = HashMap::new();
     
@@ -37,6 +42,7 @@ fn calculate_pair_statistics(vocab: Vec<String>) ->  PyResult<HashMap<String, i3
 #[pymodule]
 fn rnucpair(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_pyfunction!(func_try))?;
-    m.add_wrapped(wrap_pyfunction!(calculate_pair_statistics))?;
+    m.add_wrapped(wrap_pyfunction!(get_global_vocab))?;
+    m.add_wrapped(wrap_pyfunction!(calculate_pair_stats))?;
     Ok(())
 }
