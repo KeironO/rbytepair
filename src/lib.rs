@@ -8,12 +8,20 @@ fn func_try() -> bool {
 }
 
 #[pyfunction]
-fn get_global_vocab(vocab: Vec<String>) -> PyResult<HashMap<String, i32>> {
+fn calc_global_vocab(vocab: Vec<String>) -> PyResult<HashMap<String, i32>> {
+    let mut map = HashMap::new();
 
+    for sequence in vocab.iter() {
+        for c in sequence.chars() {
+            *map.entry(c.to_string()).or_insert(0) += 1;
+        }
+   }
+
+    Ok(map)
 }
 
 #[pyfunction]
-fn calculate_pair_stats(vocab: Vec<String>) ->  PyResult<HashMap<String, i32>> {
+fn calc_pair_stats(vocab: Vec<String>) ->  PyResult<HashMap<String, i32>> {
    
     let mut map = HashMap::new();
     
@@ -22,17 +30,9 @@ fn calculate_pair_stats(vocab: Vec<String>) ->  PyResult<HashMap<String, i32>> {
         let inter = sequence.chars().collect::<Vec<char>>();
 
         for slice in inter.iter().collect::<Vec<_>>().windows(2) {
-            
             let s: String = slice.iter().cloned().collect();
+            *map.entry(s).or_insert(0) += 1;
             
-            match map.get_mut(&s) {
-                Some(v) => *v += 1,
-                None => ()
-            }
-
-            if !map.contains_key(&s) {
-                map.insert(s, 1);
-            }
         }
     } 
 
@@ -42,7 +42,7 @@ fn calculate_pair_stats(vocab: Vec<String>) ->  PyResult<HashMap<String, i32>> {
 #[pymodule]
 fn rnucpair(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_pyfunction!(func_try))?;
-    m.add_wrapped(wrap_pyfunction!(get_global_vocab))?;
-    m.add_wrapped(wrap_pyfunction!(calculate_pair_stats))?;
+    m.add_wrapped(wrap_pyfunction!(calc_global_vocab))?;
+    m.add_wrapped(wrap_pyfunction!(calc_pair_stats))?;
     Ok(())
 }
