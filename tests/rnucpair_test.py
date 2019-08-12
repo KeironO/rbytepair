@@ -1,10 +1,7 @@
-import os
-
 import unittest
 from rnucpair import NucPairEncoder
 
 class TestRNucPair(unittest.TestCase):
-
 
 
     def test_get_global_vocab(self):
