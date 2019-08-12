@@ -18,3 +18,6 @@ rustup install nightly
 rustup default nightly
 ```
 
+```
+python ./setup.py develop
+```
