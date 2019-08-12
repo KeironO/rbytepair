@@ -21,6 +21,9 @@ You’re fish food now.
 '''.split("\n")
 
 
-class RBytePairTest(unittest.TestCase):
+class TestRBytePair(unittest.TestCase):
     def test_thing(self):
-        self.assertEqual(1, 1)
+        self.assertEquals(1, 1)
+
+if __name__ == '__main__':
+    unittest.main()
