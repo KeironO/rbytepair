@@ -6,17 +6,19 @@ class TestRNucPair(unittest.TestCase):
 
     def test_get_global_vocab(self):
         corpus = [
-            "ACCGGTTGATC",
+            "ACTGGGGCCAA",
             "CGCCCGAGC",
             "ACTGGGGCCAA"
         ]
         
         npe = NucPairEncoder(corpus)
         
-        # Hand crafted expected results
-        
-        exp = {'C': 11, 'A': 6, 'G': 10, 'T': 4}
-        
+        exp = {
+            "ACTGGGGCCAA¿" : 2,
+            "CGCCCGAGC¿" : 1
+        }    
+
+
         for k, v in npe.global_vocab().items():
             self.assertEqual(v, exp[k])
 

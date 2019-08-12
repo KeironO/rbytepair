@@ -11,10 +11,11 @@ fn func_try() -> bool {
 fn calc_global_vocab(vocab: Vec<String>) -> PyResult<HashMap<String, i32>> {
     let mut map = HashMap::new();
 
+    let eol: String = "¿".to_string();
+
     for sequence in vocab.iter() {
-        for c in sequence.chars() {
-            *map.entry(c.to_string()).or_insert(0) += 1;
-        }
+        let s = format!("{}{}", sequence, eol);
+        *map.entry(s).or_insert(0) += 1;
    }
 
     Ok(map)
