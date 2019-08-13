@@ -1,4 +1,4 @@
-from .rnucpair import func_try, calc_pair_stats, calc_global_vocab
+from .rnucpair import calc_pair_stats, calc_global_vocab
 from typing import Tuple
 
 # All of my methods are belong to Rust

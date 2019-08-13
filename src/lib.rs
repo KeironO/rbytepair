@@ -3,11 +3,6 @@ use pyo3::wrap_pyfunction;
 use std::collections::HashMap;
 
 #[pyfunction]
-fn func_try() -> bool {
-    return true;
-}
-
-#[pyfunction]
 fn calc_global_vocab(vocab: Vec<String>) -> PyResult<HashMap<String, i32>> {
     let mut map = HashMap::new();
 
@@ -42,7 +37,6 @@ fn calc_pair_stats(vocab: Vec<String>) ->  PyResult<HashMap<String, i32>> {
 
 #[pymodule]
 fn rnucpair(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
-    m.add_wrapped(wrap_pyfunction!(func_try))?;
     m.add_wrapped(wrap_pyfunction!(calc_global_vocab))?;
     m.add_wrapped(wrap_pyfunction!(calc_pair_stats))?;
     Ok(())
