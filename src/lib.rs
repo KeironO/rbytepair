@@ -6,11 +6,8 @@ use std::collections::HashMap;
 fn calc_global_vocab(vocab: Vec<String>) -> PyResult<HashMap<String, i32>> {
     let mut map = HashMap::new();
 
-    let eol: String = "¿".to_string();
-
     for sequence in vocab.iter() {
-        let s = format!("{}{}", sequence, eol);
-        *map.entry(s).or_insert(0) += 1;
+        *map.entry(sequence.to_string()).or_insert(0) += 1;
    }
 
     Ok(map)
@@ -20,17 +17,29 @@ fn calc_global_vocab(vocab: Vec<String>) -> PyResult<HashMap<String, i32>> {
 fn calc_pair_stats(vocab: Vec<String>) ->  PyResult<HashMap<String, i32>> {
    
     let mut map = HashMap::new();
-    
+
+
     for sequence in vocab.iter() {
 
         let inter = sequence.chars().collect::<Vec<char>>();
+
+        // IMPORTANT: Possible regression, non-ASCII data may mess all of this up.
+        let last_two: String = inter[inter.len() - 2 ..].to_vec().iter().collect();
+        let with_eol = format!("{}{}", last_two, "¿".to_string());
 
         for slice in inter.iter().collect::<Vec<_>>().windows(2) {
             let s: String = slice.iter().cloned().collect();
             *map.entry(s).or_insert(0) += 1;
             
         }
-    } 
+
+        *map.entry(last_two).or_insert(0) -= 1;
+
+        *map.entry(with_eol).or_insert(0) += 1;
+        // And in the case where a 0 is present (maybe the EOL was a specific pair
+        // (regardless of however unlikely), we remove the adjacent key.
+        map.retain(|_, v| *v != 0);
+    }
 
     Ok(map)
 }
