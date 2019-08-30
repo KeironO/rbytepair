@@ -41,8 +41,6 @@ class TestRNucPair(unittest.TestCase):
         }
         npe = NucPairEncoder(corpus)
 
-        print(npe.pair_statistics())
-
         for k, v in npe.pair_statistics().items():
             self.assertEqual(v, exp[k])
 
