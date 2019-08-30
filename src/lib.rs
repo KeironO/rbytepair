@@ -8,29 +8,25 @@ fn calc_global_vocab(vocab: Vec<String>) -> PyResult<HashMap<String, i32>> {
 
     for sequence in vocab.iter() {
         *map.entry(sequence.to_string()).or_insert(0) += 1;
-   }
+    }
 
     Ok(map)
 }
 
 #[pyfunction]
-fn calc_pair_stats(vocab: Vec<String>) ->  PyResult<HashMap<String, i32>> {
-   
+fn calc_pair_stats(vocab: Vec<String>) -> PyResult<HashMap<String, i32>> {
     let mut map = HashMap::new();
 
-
     for sequence in vocab.iter() {
-
         let inter = sequence.chars().collect::<Vec<char>>();
 
         // IMPORTANT: Possible regression, non-ASCII data may mess all of this up.
-        let last_two: String = inter[inter.len() - 2 ..].to_vec().iter().collect();
+        let last_two: String = inter[inter.len() - 2..].to_vec().iter().collect();
         let with_eol = format!("{}{}", last_two, "¿".to_string());
 
         for slice in inter.iter().collect::<Vec<_>>().windows(2) {
             let s: String = slice.iter().cloned().collect();
             *map.entry(s).or_insert(0) += 1;
-            
         }
 
         *map.entry(last_two).or_insert(0) -= 1;
