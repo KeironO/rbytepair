@@ -40,9 +40,16 @@ fn calc_pair_stats(vocab: Vec<String>) -> PyResult<HashMap<String, i32>> {
     Ok(map)
 }
 
+#[pyfunction]
+fn calc_num_symbols() {
+
+}
+
 #[pymodule]
 fn rnucpair(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_pyfunction!(calc_global_vocab))?;
     m.add_wrapped(wrap_pyfunction!(calc_pair_stats))?;
+    m.add_wrapped(wrap_pyfunction!(calc_num_symbols))?;
+
     Ok(())
 }
