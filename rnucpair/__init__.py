@@ -22,3 +22,6 @@ class NucPairEncoder:
         """
         return calc_pair_stats(list(self.global_vocab.keys()))
 
+    def learn_num_symbols(self, num_symbols: int, min_frequency: int) -> dict:
+        pass
+

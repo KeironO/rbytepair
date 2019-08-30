@@ -3,8 +3,20 @@ from rnucpair import NucPairEncoder
 
 class TestRNucPair(unittest.TestCase):
 
+    def test_get_global_vocab_single(self):
+        corpus = [
+            "GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCCATTTGTTCAACTCACAGTTT"
+        ]
 
-    def test_get_global_vocab(self):
+        npe = NucPairEncoder(corpus)
+
+        exp = {
+            corpus[0] : 1
+        }
+
+        self.assertEqual(exp[corpus[0]], npe.global_vocab[corpus[0]])
+
+    def test_get_global_vocab__multi(self):
         corpus = [
             "ACTGGGGCCAA",
             "CGCCCGAGC",
@@ -21,8 +33,27 @@ class TestRNucPair(unittest.TestCase):
         for k, v in npe.global_vocab.items():
             self.assertEqual(v, exp[k])
 
+    def test_pair_stats_single(self):
+        corpus = [
+            "GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCCATTTGTTCAACTCACAGTTT"
+        ]
 
-    def test_pair_stats(self):
+        npe = NucPairEncoder(corpus)
+
+        exp = {
+            "GA" : 2, "AT" : 6, "TT" : 7,
+            "TG" : 2, "GG" : 3, "GT" : 5,
+            "TC" : 6, "CA" : 7, "AA" :7,
+            "AG" : 4, "GC" : 1, "TA" : 3,
+            "CG" : 1, "CC" : 1, "AC" : 2,
+            "CT" : 1, "TT¿" : 1
+
+        }
+
+        for k, v in npe.pair_statistics().items():
+            self.assertEqual(v, exp[k])
+
+    def test_pair_stats_multi(self):
         corpus = [
             "ACCGGTTGATC",
             "CGCCCGAGC",
