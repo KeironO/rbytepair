@@ -75,5 +75,14 @@ class TestRNucPair(unittest.TestCase):
         for k, v in npe.pair_statistics().items():
             self.assertEqual(v, exp[k])
 
+    def test_num_symbols(self):
+        corpus = [
+            "GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCCATTTGTTCAACTCACAGTTT"
+        ]
+
+        npe = NucPairEncoder(corpus)
+
+        print(npe.get_num_symbols())
+
 if __name__ == '__main__':
     unittest.main()

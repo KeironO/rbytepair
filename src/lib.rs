@@ -1,5 +1,7 @@
 use pyo3::prelude::*;
 use pyo3::wrap_pyfunction;
+use pyo3::types::{PyDict};
+use pyo3::exceptions::*;
 use std::collections::HashMap;
 
 #[pyfunction]
@@ -41,7 +43,14 @@ fn calc_pair_stats(vocab: Vec<String>) -> PyResult<HashMap<String, i32>> {
 }
 
 #[pyfunction]
-fn calc_num_symbols() {
+fn calc_num_symbols(py: Python, o: PyObject, num_symbols: usize, min_frequency: usize ) -> PyResult<PyObject> {
+
+    if let Ok(d) = o.extract:: <&PyDict> (py) {
+        Ok(d.items().to_object(py)) // get length of dictionary
+    }
+    else {
+        Err(PyErr::new::<TypeError, _>("Unable to convert dictonary."))
+    }
 
 }
 
