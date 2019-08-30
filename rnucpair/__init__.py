@@ -6,8 +6,9 @@ from typing import Tuple
 class NucPairEncoder:
     def __init__(self, corpus: Tuple[str]):
         self.corpus = corpus
-    
-    def global_vocab(self) -> dict:
+        self.global_vocab = self._global_vocab()
+
+    def _global_vocab(self) -> dict:
         """
         Calculate the global vocabulary for a given list of
         nucleotide sequences.
@@ -19,5 +20,5 @@ class NucPairEncoder:
         Calculate the total pair statistics for a given list of
         nucleotide sequences
         """
-        return calc_pair_stats(self.corpus)
+        return calc_pair_stats(list(self.global_vocab.keys()))
 
