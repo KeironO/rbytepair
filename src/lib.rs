@@ -1,6 +1,6 @@
 use pyo3::prelude::*;
 use pyo3::wrap_pyfunction;
-use pyo3::types::{PyDict};
+use pyo3::types::{PyDict, PyList, PyAny, PyString, PyInt};
 use pyo3::exceptions::*;
 use std::collections::HashMap;
 
@@ -42,15 +42,35 @@ fn calc_pair_stats(vocab: Vec<String>) -> PyResult<HashMap<String, i32>> {
     Ok(map)
 }
 
-#[pyfunction]
-fn calc_num_symbols(py: Python, o: PyObject, num_symbols: usize, min_frequency: usize ) -> PyResult<PyObject> {
+fn pydict_to_hashmap(py: Python, o: PyObject) -> Result<HashMap<String, usize>, PyErr> {
+    // Ugh, sorry you need to pass through an inst of Python to get this to work.
+    // It makes sense, but it's b8.
 
     if let Ok(d) = o.extract:: <&PyDict> (py) {
-        Ok(d.items().to_object(py)) // get length of dictionary
+        let mut ret: HashMap<String, usize> = HashMap::new();
+
+        for (k,v) in d.iter() {
+            let sk = k.cast_as::<PyString>()?;
+            let sk = sk.to_string()?.into_owned();
+
+            let ik = k.cast_as::<PyInt>()?;
+            let ik = ik.extract::<usize>()?;
+
+            ret.insert(sk , ik);
+        }
+        Ok(ret)
     }
     else {
-        Err(PyErr::new::<TypeError, _>("Unable to convert dictonary."))
+        Err(PyErr::new::<TypeError, _>("Unable to convert dict object?"))
     }
+}
+
+#[pyfunction]
+fn calc_num_symbols(py: Python, pair_statistics: PyObject, num_symbols: usize, min_frequency: usize ) -> usize {
+
+    let stats= pydict_to_hashmap(py, pair_statistics);
+
+    69
 
 }
 
